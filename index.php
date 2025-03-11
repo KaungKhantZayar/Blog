@@ -20,24 +20,90 @@
   <div class="">
     <section class="content-header">
       <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1>Widgets</h1>
-          </div>
-
-        </div>
-      </div><!-- /.container-fluid -->
+            <h1 style="text-align:center;">Blog Site</h1>
+      </div>
     </section>
 
     <!-- Main content -->
     <section class="content">
-      <div class="row">
+      <div class="d-flex">
         <div class="col-md-4">
-          <!-- Box Comment -->
+          <div class="card">
+            <div class="card-header">
+              <div style="text-align:center !important;float:none;" class="card-title">
+                <h4><b>Blog Title</b></h4>
+              </div>
+            </div>
+            <div class="card-body">
+              <img class="img-fluid pad" src="dist/img/photo2.png" alt="Photo">
+              <span class="float-right text-muted">127 likes - 3 comments</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
           <div class="card card-widget">
             <div class="card-header">
-              <div class="card-title">
-                <h4 style="margin-left:140px;"><b>Blog Title</b></h4>
+              <div style="text-align:center !important;float:none;" class="card-title">
+                <h4><b>Blog Title</b></h4>
+              </div>
+            </div>
+            <div class="card-body">
+              <img class="img-fluid pad" src="dist/img/photo2.png" alt="Photo">
+              <span class="float-right text-muted">127 likes - 3 comments</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="card card-widget">
+            <div class="card-header">
+              <div style="text-align:center !important;float:none;" class="card-title">
+                <h4><b>Blog Title</b></h4>
+              </div>
+            </div>
+            <div class="card-body">
+              <img class="img-fluid pad" src="dist/img/photo2.png" alt="Photo">
+              <span class="float-right text-muted">127 likes - 3 comments</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="d-flex">
+        <div class="col-md-4">
+          <div class="card">
+            <div class="card-header">
+              <div style="text-align:center !important;float:none;" class="card-title">
+                <h4><b>Blog Title</b></h4>
+              </div>
+            </div>
+            <div class="card-body">
+              <img class="img-fluid pad" src="dist/img/photo2.png" alt="Photo">
+              <span class="float-right text-muted">127 likes - 3 comments</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="card card-widget">
+            <div class="card-header">
+              <div style="text-align:center !important;float:none;" class="card-title">
+                <h4><b>Blog Title</b></h4>
+              </div>
+            </div>
+            <div class="card-body">
+              <img class="img-fluid pad" src="dist/img/photo2.png" alt="Photo">
+              <span class="float-right text-muted">127 likes - 3 comments</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="card card-widget">
+            <div class="card-header">
+              <div style="text-align:center !important;float:none;" class="card-title">
+                <h4><b>Blog Title</b></h4>
               </div>
             </div>
             <div class="card-body">
@@ -48,7 +114,6 @@
         </div>
       </div>
     </section>
-    <!-- /.content -->
 
     <a id="back-to-top" href="#" class="btn btn-primary back-to-top" role="button" aria-label="Scroll to top">
       <i class="fas fa-chevron-up"></i>
@@ -56,7 +121,7 @@
   </div>
   <!-- /.content-wrapper -->
 
-  <footer class="main-footer">
+    <footer class="main-footer" style="margin-left:0px !important;">
     <div class="float-right d-none d-sm-block">
       <b>Version</b> 3.2.0
     </div>
