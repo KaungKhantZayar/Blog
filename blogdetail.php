@@ -1,3 +1,16 @@
+<?php
+require 'Config/config.php';
+
+session_start();
+if (empty($_SESSION['user_id']) && empty($_SESSION['logged_in'])) {
+  header('Location: login.php');
+}
+
+$stmt = $pdo->prepare("SELECT * FROM posts WHERE id=".$_GET['id']);
+$stmt->execute();
+$result = $stmt->fetchAll();
+
+ ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,7 +30,7 @@
 <body class="hold-transition sidebar-mini">
 
 <div class="">
-  <div class=""> 
+  <div class="">
 
     <!-- Main content -->
     <section class="content">
@@ -27,13 +40,17 @@
           <div class="card card-widget">
             <div class="card-header">
               <div style="text-align:center !important;float:none;" class="card-title">
-                <h4><b>Blog Title</b></h4>
+                <h4><b><?php echo $result['0']['title']; ?></b></h4>
               </div>
             </div>
             <!-- /.card-header -->
             <div class="card-body ">
-              <img src="dist/img/photo2.png" width="100%" height="100%">
-              <p>I took this photo this morning. What do you guys think?</p>
+            <img class="img-fluid pad" src="admin/images/<?php echo $result[0]['image'];?>" alt="" style="margin-left:50px;">
+              <br><br><br>
+              <p><?php echo $result['0']['content']; ?></p>
+
+                <h3>Comments</h3><hr>
+
               <button type="button" class="btn btn-default btn-sm"><i class="fas fa-share"></i> Share</button>
               <button type="button" class="btn btn-default btn-sm"><i class="far fa-thumbs-up"></i> Like</button>
               <span class="float-right text-muted">127 likes - 3 comments</span>
@@ -55,20 +72,6 @@
                 <!-- /.comment-text -->
               </div>
               <!-- /.card-comment -->
-              <div class="card-comment">
-                <!-- User image -->
-                <img class="img-circle img-sm" src="dist/img/user4-128x128.jpg" alt="User Image">
-
-                <div class="comment-text">
-                  <span class="username">
-                    Luna Stark
-                    <span class="text-muted float-right">8:03 PM Today</span>
-                  </span><!-- /.username -->
-                  It is a long established fact that a reader will be distracted
-                  by the readable content of a page when looking at its layout.
-                </div>
-                <!-- /.comment-text -->
-              </div>
               <!-- /.card-comment -->
             </div>
             <!-- /.card-footer -->

@@ -21,7 +21,7 @@ if (empty($_SESSION['user_id']) && empty($_SESSION['logged_in'])) {
              }else {
                $pageno = 1;
              }
-             $numOfrecs = 1;
+             $numOfrecs = 5;
              $offset = ($pageno - 1) * $numOfrecs;
 
              if (empty($_POST['search'])) {
@@ -39,7 +39,7 @@ if (empty($_SESSION['user_id']) && empty($_SESSION['logged_in'])) {
                $stmt = $pdo->prepare("SELECT * FROM posts WHERE title LIKE '%$searchKey%' ORDER BY id  DESC");
                $stmt->execute();
                $rawResult = $stmt->fetchAll();
-               
+
                $total_pages = ceil(count($rawResult) / $numOfrecs);
 
                $stmt = $pdo->prepare("SELECT * FROM posts WHERE title LIKE '%$searchKey%' ORDER BY id DESC LIMIT $offset,$numOfrecs");
