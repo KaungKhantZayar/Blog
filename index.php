@@ -80,11 +80,13 @@ if (empty($_SESSION['user_id']) && empty($_SESSION['logged_in'])) {
 
   <!-- /.content-wrapper -->
 
-    <footer class="main-footer" style="margin-left:0px !important;">
-    <div class="float-right d-none d-sm-block">
-      <b>Version</b> 3.2.0
-    </div>
-    <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved.
+  <footer class="main-footer">
+  <!-- To the right -->
+  <div class="float-right d-none d-sm-inline">
+    <a href="logout.php" type="button" class="btn btn-danger logout">Logout</a>
+  </div>
+  <!-- Default to the left -->
+  <strong>Copyright &copy; 2025 <a href="#">KKZY</a>.</strong> All rights reserved.
   </footer>
 
   <!-- Control Sidebar -->

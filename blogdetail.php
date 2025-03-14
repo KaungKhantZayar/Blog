@@ -5,10 +5,33 @@ session_start();
 if (empty($_SESSION['user_id']) && empty($_SESSION['logged_in'])) {
   header('Location: login.php');
 }
-
 $stmt = $pdo->prepare("SELECT * FROM posts WHERE id=".$_GET['id']);
 $stmt->execute();
 $result = $stmt->fetchAll();
+
+$blogId = $_GET['id'];
+
+$stmtcmt = $pdo->prepare("SELECT * FROM comments WHERE post_id=$blogId");
+$stmtcmt->execute();
+$cmResult = $stmtcmt->fetchAll();
+
+if (!empty($cmResult)) {
+  $authorId = $cmResult[0]['author_id'];
+  $stmtau = $pdo->prepare("SELECT * FROM users WHERE id=$authorId");
+  $stmtau->execute();
+  $auResult = $stmtau->fetchAll();
+  }
+
+if ($_POST) {
+  $comment = $_POST['comment'];
+  $stmt = $pdo->prepare("INSERT INTO comments(content,author_id,post_id) VALUES (:content,:author_id,:post_id)");
+  $result = $stmt->execute(
+    array(':content'=>$comment,':author_id'=>$_SESSION['user_id'],':post_id'=>$blogId)
+  );
+  if ($result) {
+    header('Location: blogdetail.php?id='.$blogId);
+  }
+}
 
  ?>
 <!DOCTYPE html>
@@ -45,42 +68,41 @@ $result = $stmt->fetchAll();
             </div>
             <!-- /.card-header -->
             <div class="card-body ">
-            <img class="img-fluid pad" src="admin/images/<?php echo $result[0]['image'];?>" alt="" style="margin-left:50px;">
+            <img class="img-fluid pad" src="admin/images/<?php echo $result[0]['image'];?>" alt="" style="margin-left:0px;">
               <br><br><br>
               <p><?php echo $result['0']['content']; ?></p>
-
+              <div class="d-flex">
                 <h3>Comments</h3><hr>
-
-              <button type="button" class="btn btn-default btn-sm"><i class="fas fa-share"></i> Share</button>
-              <button type="button" class="btn btn-default btn-sm"><i class="far fa-thumbs-up"></i> Like</button>
-              <span class="float-right text-muted">127 likes - 3 comments</span>
+                <a href="index.php" class="btn btn-success">Back To Blog_Page</a>
+              </div>
             </div>
             <!-- /.card-body -->
-            <div class="card-footer card-comments">
-              <div class="card-comment">
-                <!-- User image -->
-                <img class="img-circle img-sm" src="dist/img/user3-128x128.jpg" alt="User Image">
-
-                <div class="comment-text">
-                  <span class="username">
-                    Maria Gonzales
-                    <span class="text-muted float-right">8:03 PM Today</span>
-                  </span><!-- /.username -->
-                  It is a long established fact that a reader will be distracted
-                  by the readable content of a page when looking at its layout.
+            <?php
+            if (!empty($cmResult)) {
+              ?>
+              <div class="card-footer card-comments">
+                <div class="card-comment">
+                  <div class="comment-text" style="margin-left:0px !important;">
+                    <span class="username">
+                      <?php echo $auResult[0]['name'];?>
+                      <span class="text-muted float-right"> <?php echo $cmResult[0]['created_at'];?></span>
+                    </span><!-- /.username -->
+                      <?php echo $cmResult[0]['content'];?>
+                  </div>
+                  <!-- /.comment-text -->
                 </div>
-                <!-- /.comment-text -->
+                <!-- /.card-comment -->
+                <!-- /.card-comment -->
               </div>
-              <!-- /.card-comment -->
-              <!-- /.card-comment -->
-            </div>
+              <?php
+            }
+             ?>
             <!-- /.card-footer -->
             <div class="card-footer">
-              <form action="#" method="post">
-                <img class="img-fluid img-circle img-sm" src="dist/img/user4-128x128.jpg" alt="Alt Text">
+              <form action="" method="post">
                 <!-- .img-push is used to add margin to elements next to floating images -->
                 <div class="img-push">
-                  <input type="text" class="form-control form-control-sm" placeholder="Press enter to post comment">
+                  <input type="text" name="comment" class="form-control form-control-sm" placeholder="Press enter to post comment">
                 </div>
               </form>
             </div>
@@ -100,11 +122,13 @@ $result = $stmt->fetchAll();
   </div>
   <!-- /.content-wrapper -->
 
-  <footer class="main-footer" style="margin-left:0px !important;">
-    <div class="float-right d-none d-sm-block">
-      <b>Version</b> 3.2.0
-    </div>
-    <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved.
+  <footer class="main-footer" style="margin-left:0 !important;">
+  <!-- To the right -->
+  <div class="float-right d-none d-sm-inline">
+    <a href="logout.php" type="button" class="btn btn-danger logout">Logout</a>
+  </div>
+  <!-- Default to the left -->
+  <strong>Copyright &copy; 2025 <a href="#">KKZY</a>.</strong> All rights reserved.
   </footer>
 
   <!-- Control Sidebar -->

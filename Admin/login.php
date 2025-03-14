@@ -13,12 +13,16 @@ session_start();
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if ($user) {
-      if ($user['password'] == $password) {
-        $_SESSION['user_id'] = $user['id'];
-        $_SESSION['username'] = $user['name'];
-        $_SESSION['logged_in'] = time();
+      if ($user['role'] == 1) {
+        if(password_verify($password, $user['password'])) {
+          $_SESSION['user_id'] = $user['id'];
+          $_SESSION['username'] = $user['name'];
+          $_SESSION['logged_in'] = time();
 
-        header('Location: index.php');
+          header('Location: index.php');
+        }
+      }else {
+        echo "<script>alert('Your Not Admin');window.Location.href='login.php';</script>";
       }
     }
     echo "<script>alert('Incorrect Credentials')</script>";

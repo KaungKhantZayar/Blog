@@ -1,6 +1,6 @@
 <?php
 session_start();
-  require 'Config/config.php';  
+  require 'Config/config.php';
 
   if ($_POST){
     $name = $_POST['name'];
@@ -49,7 +49,7 @@ session_start();
 <body class="hold-transition login-page">
 <div class="login-box">
   <div class="login-logo">
-    <a href="../../index2.html"><b>Blog</b></a>
+    <a href="../../index2.html"><b>Register</b></a>
   </div>
   <!-- /.login-logo -->
   <div class="card">
