@@ -15,11 +15,14 @@ $stmtcmt = $pdo->prepare("SELECT * FROM comments WHERE post_id=$blogId");
 $stmtcmt->execute();
 $cmResult = $stmtcmt->fetchAll();
 
+$auResult = [];
 if (!empty($cmResult)) {
-  $authorId = $cmResult[0]['author_id'];
-  $stmtau = $pdo->prepare("SELECT * FROM users WHERE id=$authorId");
-  $stmtau->execute();
-  $auResult = $stmtau->fetchAll();
+  foreach ($cmResult as $key => $value) {
+    $authorId = $cmResult[$key]['author_id'];
+    $stmtau = $pdo->prepare("SELECT * FROM users WHERE id=$authorId");
+    $stmtau->execute();
+    $auResult[] = $stmtau->fetchAll();
+  }
   }
 
 if ($_POST) {
@@ -39,7 +42,7 @@ if ($_POST) {
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AdminLTE 3 | Widgets</title>
+  <title>Blog Detail</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -83,11 +86,17 @@ if ($_POST) {
               <div class="card-footer card-comments">
                 <div class="card-comment">
                   <div class="comment-text" style="margin-left:0px !important;">
-                    <span class="username">
-                      <?php echo $auResult[0]['name'];?>
-                      <span class="text-muted float-right"> <?php echo $cmResult[0]['created_at'];?></span>
-                    </span><!-- /.username -->
-                      <?php echo $cmResult[0]['content'];?>
+                    <?php
+                    foreach ($cmResult as $key => $value) {
+                        ?>
+                        <span class="username">
+                          <?php print_r($auResult[0][0]['name']);?>
+                          <span class="text-muted float-right"> <?php echo $value['created_at'];?></span>
+                        </span>
+                          <?php echo $value['content'];?><br>
+                        <?php
+                    }
+                     ?>
                   </div>
                   <!-- /.comment-text -->
                 </div>
