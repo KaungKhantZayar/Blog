@@ -16,9 +16,9 @@ session_start();
     if ($user) {
       echo "<script>alert('Email Duplicated')</script>";
     }else {
-      $stmt = $pdo->prepare("INSERT INTO users(name,email,password) VALUES (:name,:email,:password)");
+      $stmt = $pdo->prepare("INSERT INTO users(name,email,password,role) VALUES (:name,:email,:password,:role)");
       $result = $stmt->execute(
-        array(':name'=>$name,':email'=>$email,':password'=>$password)
+        array(':name'=>$name,':email'=>$email,':password'=>$password,':role'=>0)
       );
       if ($result) {
         echo "<script>alert('Successfuly Register, You can now login');window.location.href='login.php'</script>";

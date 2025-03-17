@@ -5,9 +5,12 @@ require '../Config/config.php';
 if (empty($_SESSION['user_id']) && empty($_SESSION['logged_in'])) {
   header('Location: login.php');
 }
+if ($_SESSION['role'] != 1) {
+  header('Location: login.php');
+}
 
   ?>
- <?php include 'header.html';?>
+ <?php include 'header.php';?>
 
     <div class="col-md-12">
       <div class="card">
@@ -21,7 +24,7 @@ if (empty($_SESSION['user_id']) && empty($_SESSION['logged_in'])) {
              }else {
                $pageno = 1;
              }
-             $numOfrecs = 5;
+             $numOfrecs = 3;
              $offset = ($pageno - 1) * $numOfrecs;
 
              if (empty($_POST['search'])) {

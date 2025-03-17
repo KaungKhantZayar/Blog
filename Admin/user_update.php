@@ -5,6 +5,9 @@ require '../Config/config.php';
 if (empty($_SESSION['user_id']) && empty($_SESSION['logged_in'])) {
   header('Location: login.php');
 }
+if ($_SESSION['role'] != 1) {
+  header('Location: login.php');
+}
 
 $id = $_GET['id'];
 if ($_POST) {
@@ -37,7 +40,7 @@ echo "<script>alert('Email duplicate')</script>";
   $result = $stmt->fetchAll();
 
   ?>
- <?php include 'header.html';?>
+ <?php include 'header.php';?>
 
 <div class="container">
     <div class="card">

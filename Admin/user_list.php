@@ -6,12 +6,57 @@ if (empty($_SESSION['user_id']) && empty($_SESSION['logged_in'])) {
   header('Location: login.php');
 }
 
-  $stmt = $pdo->prepare("SELECT * FROM users ORDER BY id DESC");
-  $stmt->execute();
-  $result = $stmt->fetchAll();
+if ($_SESSION['role'] != 1) {
+  header('Location: login.php');
+}
 
-  ?>
- <?php include 'header.html';?>
+if (isset($_POST['search']) && !empty($_POST['search'])) {
+    setcookie('search', $_POST['search'], time() + (86400 * 30), "/");
+} else {
+    if (empty($_GET['pageno'])) {
+        unset($_COOKIE['search']);
+        setcookie('search', null, -1, '/');
+    }
+}
+
+
+
+?>
+<?php
+     if (!empty($_GET['pageno'])) {
+       $pageno = $_GET['pageno'];
+     }else {
+       $pageno = 1;
+     }
+     $numOfrecs = 2;
+     $offset = ($pageno - 1) * $numOfrecs;
+
+     if (empty($_POST['search'])) {
+       $stmt = $pdo->prepare("SELECT * FROM users ORDER BY id  DESC");
+       $stmt->execute();
+       $rawResult = $stmt->fetchAll();
+
+       $total_pages = ceil(count($rawResult) / $numOfrecs);
+
+       $stmt = $pdo->prepare("SELECT * FROM users ORDER BY id DESC LIMIT $offset,$numOfrecs");
+       $stmt->execute();
+       $result = $stmt->fetchAll();
+     }else {
+       $searchKey = $_POST['search'] ? $_POST['search'] : $_COOKIE['search'];
+       $stmt = $pdo->prepare("SELECT * FROM users WHERE name LIKE '%$searchKey%' ORDER BY id  DESC");
+       $stmt->execute();
+       $rawResult = $stmt->fetchAll();
+
+       $total_pages = ceil(count($rawResult) / $numOfrecs);
+
+       $stmt = $pdo->prepare("SELECT * FROM users WHERE name LIKE '%$searchKey%' ORDER BY id DESC LIMIT $offset,$numOfrecs");
+       $stmt->execute();
+       $result = $stmt->fetchAll();
+     }
+     ?>
+
+
+<?php include 'header.php';?>
 
     <div class="col-md-12">
       <div class="card">
@@ -64,10 +109,24 @@ if (empty($_SESSION['user_id']) && empty($_SESSION['logged_in'])) {
             </tbody>
           </table>
             <br>
+            <nav aria-lable="Page navigation example" style="float:right;">
+            <ul class="pagination">
+            <li class="page-item"><a class="page-link" href="?pageno=1">First</a></li>
+            <li class="page-item <?php if($pageno <= 1){echo 'disabled';}?>">
+            <a class="page-link" href="<?php if($pageno <= 1){echo '#';}else{echo "?pageno=".($pageno-1);}?>">Previonus</a>
+            </li>
+            <li class="page-item"><a class="page-link" href="#"><?php echo $pageno;?></a></li>
+            <li class="page-item <?php if($pageno >= $total_pages){echo 'disabled';}?>">
+            <a class="page-link" href="<?php if($pageno >= $total_pages){echo '#';}else{echo "?pageno=".($pageno+1);}?>">Next</a>
+            </li>
+            <li class="page-item"><a class="page-link" href="?pagenp=<?php echo $total_pages;?>">Last</a></li>
+            </ul>
+            </nav>
       </div>
 
       </div>
     </div>
+
 
 
 <?php include 'footer.html'; ?>
