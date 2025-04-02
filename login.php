@@ -21,6 +21,16 @@ session_start();
 
         header('Location: index.php');
       }
+
+      // if(password_verify($password, $user['password'])) {
+      //   $_SESSION['user_id'] = $user['id'];
+      //   $_SESSION['username'] = $user['name'];
+      //   $_SESSION['role'] = 1;
+      //   $_SESSION['logged_in'] = time();
+      //
+      //   header('Location: index.php');
+      // }
+
     }
     echo "<script>alert('Incorrect Credentials')</script>";
   }

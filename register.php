@@ -3,6 +3,19 @@ session_start();
   require 'Config/config.php';
 
   if ($_POST){
+    if (empty($_POST['name']) OR empty($_POST['email']) OR empty($_POST['password']) OR strlen($_POST['password']) < 4){
+      if (empty($_POST['name'])) {
+        $nameError = 'Name cannot be empty';
+      }
+      if (empty($_POST['email'])) {
+        $emailError = 'Email cannot be empty';
+      }
+      if (empty($_POST['password'])) {
+        $passwordError = 'Password cannot be empty';
+      }elseif  (strlen($_POST['password']) < 4) {
+        $passwordError = 'Password should be 4 characters at least';
+      }
+  }else {
     $name = $_POST['name'];
     $email = $_POST['email'];
     $password = $_POST['password'];
@@ -24,7 +37,9 @@ session_start();
         echo "<script>alert('Successfuly Register, You can now login');window.location.href='login.php'</script>";
       }
     }
+ }
   }
+
  ?>
 <!DOCTYPE html>
 <html>
@@ -57,8 +72,10 @@ session_start();
       <p class="login-box-msg">Register New Account</p>
 
       <form action="register.php" method="post">
+        <!-- <label for="">Username</label> -->
+        <span style="color:red;"><?php echo empty($nameError) ? '' : '*'.$nameError; ?></span>
         <div class="input-group mb-3">
-          <input type="text" name="name" class="form-control" placeholder="Name">
+          <input type="text" name="name" class="form-control" placeholder="Enter Your Name "><br>
           <div class="input-group-append">
             <div class="input-group-text">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-bounding-box" viewBox="0 0 16 16">
@@ -68,16 +85,20 @@ session_start();
             </div>
           </div>
         </div>
+        <!-- <label for="">Email</label> -->
+        <span style="color:red;"><?php echo empty($emailError) ? '' : '*'.$emailError; ?></span>
         <div class="input-group mb-3">
-          <input type="email" name="email" class="form-control" placeholder="Email">
+          <input type="email" name="email" class="form-control" placeholder="Enter Your Email">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-envelope"></span>
             </div>
           </div>
         </div>
+        <!-- <label for="">Password</label> -->
+        <span style="color:red;"><?php echo empty($passwordError) ? '' : '*'.$passwordError; ?></span>
         <div class="input-group mb-3">
-          <input type="password" name="password" class="form-control" placeholder="Password">
+          <input type="password" name="password" class="form-control" placeholder="Enter Your Password">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-lock"></span>
